@@ -45,6 +45,19 @@
 
                     <div class="space-y-4 lg:text-lg leading-loose">{!! $post->body !!}</div>
                 </div>
+
+                
+                <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                    @include('posts._add-comment-form')
+                    
+                    @if (is_array($post->comments) || is_object($post->comments))
+
+                    @foreach ($post->comments as $comment)
+                        <x-comment :comment="$comment"/>
+                    @endforeach
+
+                    @endif
+                </section>
             </article>
         </main>
     </section>
