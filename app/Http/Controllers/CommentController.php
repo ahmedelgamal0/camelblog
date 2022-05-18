@@ -13,13 +13,15 @@ class CommentController extends Controller
             'body' => 'required'
         ]);
 
-        $newpost = $post->comments()->create([
+        $post->comments()->create([
             'user_id' => request()->user()->id,
             'body' => request('body')
 
         ]);
 
-        return response()->json($newpost, 201);
+        return back();
+        // return response()->json($newpost, 201);
+
 
     }
 

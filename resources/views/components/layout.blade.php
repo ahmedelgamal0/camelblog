@@ -16,27 +16,37 @@
                 </a>
             </div>
 
-            <div class="mt-8 md:mt-0">
-                <a href="/" class="text-xs font-bold uppercase">Home Page</a>
-
-                <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
-                    Subscribe for Updates
-                </a>
+            <div class="mt-8 md:mt-0 flex items-center">
+               
                 @guest
                     <a href="/login" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                         Login
                     </a>
                 @else
-                    <span class="">
-                        Welcome, {{ auth()->user()->name }}!
-                    </span>
-                    <form method="POST" action="/logout" class="text-xs font-semibold text-blue-500 ml-6">
-                        @csrf
-                        <button type="submit" >
-                            Log Out
-                        </button>
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <button class="">
+                                Welcome, {{ auth()->user()->name }}
+                            </button>
+                        </x-slot>
+                        @can('admin')
+                            <x-dropdown-item href="/admin/posts">Dashboard</x-dropdown-item>
+                            <x-dropdown-item href="/admin/posts/create">New Post</x-dropdown-item>
+                        @endcan
 
-                    </form>
+                        <x-dropdown-item href="#" x-data="{}" @click.prevent="document.querySelector('#logout-form').submit()">
+                            Log Out
+                        </x-dropdown-item>
+
+                        <form id="logout-form" method="POST" action="/logout" class="hidden">
+                            @csrf    
+                        </form>
+
+                    </x-dropdown>
+
+                    <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                        Subscribe for Updates
+                    </a>
                 @endguest
             </div>
 
